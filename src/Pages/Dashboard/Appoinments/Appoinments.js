@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 
 const Appoinments = ({date, setDate}) => {
@@ -18,7 +20,7 @@ const Appoinments = ({date, setDate}) => {
     console.log(withdraw);
 
     useEffect(() => {
-        const url = `http://localhost:5000/appoinments?email=${user.email}&date=${date}`;
+        const url = `http://localhost:5000/appoinments?email=${user.email}&date=${date.toLocaleDateString()}`;
         fetch(url, {
           headers: {
             'authorization' : `Bearer ${token}`,
@@ -51,8 +53,9 @@ const Appoinments = ({date, setDate}) => {
               </TableCell>
               <TableCell align="right">{row.time}</TableCell>
               <TableCell align="right">{row.serviceName}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.Payment ? 'paid' : 
+               <Link to={`dashboard/Payment/${row._id}`}><Button variant='contained'>Pay</Button></Link>
+              }</TableCell>
             </TableRow>
           ))}
         </TableBody>
